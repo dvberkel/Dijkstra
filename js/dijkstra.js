@@ -75,8 +75,14 @@
         if (!this.vertices[id]) {
             var v = this.vertices[id] = document.createElementNS('http://www.w3.org/2000/svg','circle');
             v.setAttribute('r', this.options.radius)
-            this.container.appendChild(v);
+            this.findVerticesContainer().appendChild(v);
         }
         return this.vertices[id];
     };
+    GraphView.prototype.findVerticesContainer = function(){
+        if (!this.verticesContainer) {
+            this.verticesContainer = this.container.querySelector('#vertices');
+        }
+        return this.verticesContainer;
+    }
 })(window.dijkstra = window.dijkstra || {})
