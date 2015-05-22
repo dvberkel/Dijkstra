@@ -11,7 +11,8 @@
             'x': 100 * position.x,
             'y': 100 * position.y
         }},
-        radius: 20
+        radius: 20,
+        between: 0.3
 
     });
 

@@ -11,6 +11,13 @@
         return result;
     };
 
+    function between(u, v, t){
+        return {
+            'x': (1 - t) * u.x + t * v.x,
+            'y': (1 - t) * u.y + t * v.y
+        };
+    };
+
     var Vertex = function(x, y, id, name){
         this.x = x;
         this.y = y;
@@ -56,11 +63,13 @@
     var GraphView = dijkstra.GraphView = function(graph, container, options){
         this.options = extend(options || {},
                               { 'radius': 1 },
-                              { 'placement': function(position){ return position; } });
+                              { 'placement': function(position){ return position; } },
+                              { 'between': 0 });
         this.graph = graph;
         this.container = container;
         this.placement = this.options.placement || function(position){ return position; }
         this.vertices = {};
+        this.edges = {};
         this.update();
     };
     GraphView.prototype.update = function(){
@@ -69,6 +78,15 @@
             var position = this.placement(v);
             vertex.setAttribute('cx', position.x);
             vertex.setAttribute('cy', position.y);
+        }.bind(this));
+        this.graph.edges.forEach(function(e){
+            var edge = this.findEdge(e.id);
+            var head = this.placement(between(e.head, e.tail, this.options.between));
+            var tail = this.placement(between(e.tail, e.head, this.options.between));
+            edge.setAttribute('x1', head.x);
+            edge.setAttribute('y1', head.y);
+            edge.setAttribute('x2', tail.x);
+            edge.setAttribute('y2', tail.y);
         }.bind(this));
     };
     GraphView.prototype.findVertex = function(id){
@@ -84,5 +102,18 @@
             this.verticesContainer = this.container.querySelector('#vertices');
         }
         return this.verticesContainer;
-    }
+    };
+    GraphView.prototype.findEdge = function(id){
+        if (!this.edges[id]) {
+            var e = this.edges[id] = document.createElementNS('http://www.w3.org/2000/svg','line');
+            this.findEdgesContainer().appendChild(e);
+        }
+        return this.edges[id];
+    };
+    GraphView.prototype.findEdgesContainer = function(){
+        if (!this.edgesContainer) {
+            this.edgesContainer = this.container.querySelector('#edges');
+        }
+        return this.edgesContainer;
+    };
 })(window.dijkstra = window.dijkstra || {})
