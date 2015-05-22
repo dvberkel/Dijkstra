@@ -1,10 +1,5 @@
 ;(function(){
-    var G = new dijkstra.Graph();
-    var a = G.addVertex(0, 0, "A");
-    var b = G.addVertex(1, 0, "B");
-    var c = G.addVertex(0.5, Math.sqrt(3)/2, "c");
-
-    var e = G.addEdge(a, b);
+    var G = dijkstra.hexGrid(4);
 
     new dijkstra.GraphView(G, document.getElementById('graph'), {
         placement: function(position){ return {
