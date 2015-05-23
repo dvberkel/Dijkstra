@@ -129,6 +129,16 @@
                 vertices[y][x] = G.addVertex(x - n + 0.5 * Y, y * h);
             }
         }
+        for (var y in vertices) {
+            var Y = parseInt(y);
+            for (var x in vertices[Y]) {
+                var X = parseInt(x);
+                var u = vertices[Y][X];
+                if (vertices[Y][X + 1]) { G.addEdge(u, vertices[Y][X + 1]); }
+                if (vertices[Y+1] && vertices[Y+1][X]) { G.addEdge(u, vertices[Y + 1][X]); }
+                if (vertices[Y+1] && vertices[Y+1][X + 1]) { G.addEdge(u, vertices[Y + 1][X + 1]); }
+            }
+        }
         return G;
     };
 })(window.dijkstra = window.dijkstra || {})
