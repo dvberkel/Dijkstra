@@ -120,11 +120,13 @@
     dijkstra.hexGrid = function(n){
         var G = new Graph();
         var h = Math.sqrt(3)/2;
+        var vertices = {};
         for (var y = -n; y <= n; y++) {
+            vertices[y] = {};
             var Y = Math.abs(y);
-            var m = n - Y;
-            for (var x = -n; x <= m; x++) {
-                G.addVertex(x + Y * 0.5, y * h);
+            var m = 2 * n + 1 - Y
+            for (var x = 0; x < m; x++) {
+                vertices[y][x] = G.addVertex(x - n + 0.5 * Y, y * h);
             }
         }
         return G;

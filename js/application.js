@@ -1,5 +1,5 @@
 ;(function(){
-    var G = dijkstra.hexGrid(4);
+    var G = dijkstra.hexGrid(1);
 
     new dijkstra.GraphView(G, document.getElementById('graph'), {
         placement: function(position){ return {
