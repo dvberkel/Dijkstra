@@ -136,7 +136,8 @@
                 var u = vertices[Y][X];
                 if (vertices[Y][X + 1]) { G.addEdge(u, vertices[Y][X + 1]); }
                 if (vertices[Y+1] && vertices[Y+1][X]) { G.addEdge(u, vertices[Y + 1][X]); }
-                if (vertices[Y+1] && vertices[Y+1][X + 1]) { G.addEdge(u, vertices[Y + 1][X + 1]); }
+                if (Y < 0 && vertices[Y+1] && vertices[Y+1][X + 1]) { G.addEdge(u, vertices[Y + 1][X + 1]); }
+                if (Y >= 0 && vertices[Y+1] && vertices[Y+1][X - 1]) { G.addEdge(u, vertices[Y + 1][X - 1]); }
             }
         }
         return G;
