@@ -189,8 +189,9 @@
 
     var states = {
         'PICK'     : { 'next': function(){ return states.NEIGHBOUR; } },
-        'NEIGHBOUR': { 'next': function(){ return states.PICK; } }
-    }
+        'NEIGHBOUR': { 'next': function(){ return states.FRONTIER; } },
+        'FRONTIER': { 'next': function(){ return states.PICK; } }
+    };
     var ShortestPath = dijkstra.ShortestPath = function(graph){
         this.graph = graph;
         this.reset();
@@ -226,7 +227,6 @@
             this.candidates = this.candidates.filter(function(candidate){
                 return candidate !== this.current;
             }.bind(this));
-            this.neighbourhood = [];
         }
         if (this.state == states.NEIGHBOUR){
             var neighbourhood = this.graph.neighbourhood(this.current).filter(function(v){ return !contains(this.visited, v); }.bind(this));
@@ -236,6 +236,9 @@
             }.bind(this));
             this.neighbourhood = neighbourhood;
             this.visited.push(this.current);
+        }
+        if (this.state == states.FRONTIER){
+            this.neighbourhood = [];
         }
         this.state = this.state.next();
     }
