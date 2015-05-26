@@ -78,6 +78,7 @@
             var position = this.placement(v);
             vertex.setAttribute('cx', position.x);
             vertex.setAttribute('cy', position.y);
+            vertex.setAttribute('fill', 'white');
         }.bind(this));
         this.graph.edges.forEach(function(e){
             var edge = this.findEdge(e.id);
@@ -93,6 +94,10 @@
             var target = this.findVertex(this.algorithm.target.id);
             source.setAttribute('fill', 'red');
             target.setAttribute('fill', 'green');
+            if (this.algorithm.current){
+                var current = this.findVertex(this.algorithm.current.id);
+                current.setAttribute('fill', 'blue');
+            }
         }
     };
     GraphView.prototype.findVertex = function(id){
@@ -152,18 +157,43 @@
         return G;
     };
 
+    var states = {
+        'PICK' : { 'next': function(){ return states.PICK; } }
+    }
     var ShortestPath = dijkstra.ShortestPath = function(graph){
         this.graph = graph;
         this.reset();
     };
     ShortestPath.prototype.reset = function(){
+        this.distance = {};
+        this.graph.vertices.forEach(function(vertex){
+            this.distance[vertex.id] = Number.POSITIVE_INFINITY;
+        }.bind(this));
+        this.candidates = [];
+        this.current = undefined;
+        this.state = states.PICK;
+        if (this.source) {
+            this.candidates.push(this.source);
+            this.distance[this.source.id] = 0;
+        }
     };
     ShortestPath.prototype.setSource = function(u){
-        this.reset();
         this.source = u;
+        this.reset();
     };
     ShortestPath.prototype.setTarget = function(v){
-        this.reset();
         this.target = v;
+        this.reset();
     };
+    ShortestPath.prototype.step = function(){
+        if (this.state === states.PICK) {
+            this.current = this.candidates.reduce(function(best, candidate){
+                return this.distances[candidate.id] < this.distance[best.id] ? candidate: best;
+            }.bind(this));
+            this.candidates = this.candidates.filter(function(candidate){
+                return candidate !== this.current;
+            }.bind(this));
+        }
+        this.state = this.state.next();
+    }
 })(window.dijkstra = window.dijkstra || {})
