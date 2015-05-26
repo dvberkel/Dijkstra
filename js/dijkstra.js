@@ -18,6 +18,10 @@
         };
     };
 
+    function contains(collection, target) {
+        return collection.reduce(function(found, element){ return found || element === target }, false);
+    }
+
     var Vertex = function(x, y, id, name){
         this.x = x;
         this.y = y;
@@ -90,6 +94,10 @@
             edge.setAttribute('y2', tail.y);
         }.bind(this));
         if (this.algorithm){
+            this.algorithm.visited.forEach(function(v){
+                var visited = this.findVertex(v.id);
+                visited.setAttribute('fill', 'purple');
+            }.bind(this));
             var source = this.findVertex(this.algorithm.source.id);
             var target = this.findVertex(this.algorithm.target.id);
             source.setAttribute('fill', 'red');
@@ -164,7 +172,7 @@
 
     var states = {
         'PICK'     : { 'next': function(){ return states.NEIGHBOUR; } },
-        'NEIGHBOUR': { 'next': function(){ return states.NEIGHBOUR; } }
+        'NEIGHBOUR': { 'next': function(){ return states.PICK; } }
     }
     var ShortestPath = dijkstra.ShortestPath = function(graph){
         this.graph = graph;
@@ -178,6 +186,7 @@
         this.candidates = [];
         this.current = undefined;
         this.neighbourhood = [];
+        this.visited = [];
         this.state = states.PICK;
         if (this.source) {
             this.candidates.push(this.source);
@@ -195,19 +204,22 @@
     ShortestPath.prototype.step = function(){
         if (this.state === states.PICK) {
             this.current = this.candidates.reduce(function(best, candidate){
-                return this.distances[candidate.id] < this.distance[best.id] ? candidate: best;
+                return this.distance[candidate.id] < this.distance[best.id] ? candidate: best;
             }.bind(this));
             this.candidates = this.candidates.filter(function(candidate){
                 return candidate !== this.current;
             }.bind(this));
+            this.neighbourhood = [];
         }
         if (this.state == states.NEIGHBOUR){
-            var neighbourhood = this.graph.neighbourhood(this.current);
+            var neighbourhood = this.graph.neighbourhood(this.current).filter(function(v){ return !contains(this.visited, v); }.bind(this));
             neighbourhood.forEach(function(neighbour){
-                this.distance[neighbour.id] = this.distance[this.current.id] + 1;
+                this.distance[neighbour.id] = Math.min(this.distance[neighbour.id], this.distance[this.current.id] + 1);
                 this.candidates.push(neighbour);
             }.bind(this));
             this.neighbourhood = neighbourhood;
+            this.visited.push(this.current);
+        }
         this.state = this.state.next();
     }
 })(window.dijkstra = window.dijkstra || {})
