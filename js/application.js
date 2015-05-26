@@ -7,7 +7,20 @@
             'y': 100 * position.y
         }},
         radius: 20,
-        between: 0.3
+        between: 0.3,
+        vertex: {
+            events : {
+                mouseenter: function(event){
+                    var id = this.getAttribute('data-vertex');
+                    var v = G.findVertex(id);
+                    algorithm.setPathFrom(v);
+                    console.log(this);
+                    console.log(event);
+                    console.log(id);
+                    console.log(v);
+                }
+            }
+        }
     });
 
     var algorithm = new dijkstra.ShortestPath(G);
