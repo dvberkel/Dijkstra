@@ -22,5 +22,11 @@
     };
     loop();
 
+    document.body.addEventListener('keypress', function(event){
+        if (event.keyCode == 32) {
+            algorithm.step();
+        }
+    });
+
     window.G = G;
 })();
