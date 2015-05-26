@@ -98,6 +98,11 @@
                 var current = this.findVertex(this.algorithm.current.id);
                 current.setAttribute('fill', 'blue');
             }
+            this.algorithm.neighbourhood.forEach(function(v){
+                var neighbour = this.findVertex(v.id);
+                neighbour.setAttribute('fill', 'gray');
+
+            }.bind(this));
         }
     };
     GraphView.prototype.findVertex = function(id){
@@ -158,7 +163,8 @@
     };
 
     var states = {
-        'PICK' : { 'next': function(){ return states.PICK; } }
+        'PICK'     : { 'next': function(){ return states.NEIGHBOUR; } },
+        'NEIGHBOUR': { 'next': function(){ return states.NEIGHBOUR; } }
     }
     var ShortestPath = dijkstra.ShortestPath = function(graph){
         this.graph = graph;
@@ -171,6 +177,7 @@
         }.bind(this));
         this.candidates = [];
         this.current = undefined;
+        this.neighbourhood = [];
         this.state = states.PICK;
         if (this.source) {
             this.candidates.push(this.source);
@@ -194,6 +201,13 @@
                 return candidate !== this.current;
             }.bind(this));
         }
+        if (this.state == states.NEIGHBOUR){
+            var neighbourhood = this.graph.neighbourhood(this.current);
+            neighbourhood.forEach(function(neighbour){
+                this.distance[neighbour.id] = this.distance[this.current.id] + 1;
+                this.candidates.push(neighbour);
+            }.bind(this));
+            this.neighbourhood = neighbourhood;
         this.state = this.state.next();
     }
 })(window.dijkstra = window.dijkstra || {})
