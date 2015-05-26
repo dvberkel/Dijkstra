@@ -65,7 +65,17 @@
         return this.edges
             .filter(function(e){ return e.incidentTo(v); })
             .map(function(e){ return e.neighbour(v); });
-    }
+    };
+    Graph.prototype.findVertex = function(id){
+        return this.vertices.reduce(function(vertex, candidate){
+            return candidate.id == id ? candidate: vertex;
+        }, undefined);
+    };
+    Graph.prototype.findEdge = function(id){
+        return this.edges.reduce(function(edge, candidate){
+            return candidate.id == id ? candidate: edge;
+        }, undefined);
+    };
 
     var GraphView = dijkstra.GraphView = function(graph, container, options){
         this.options = extend(options || {},
