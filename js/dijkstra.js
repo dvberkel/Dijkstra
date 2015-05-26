@@ -154,6 +154,9 @@
             var v = this.vertices[id] = document.createElementNS('http://www.w3.org/2000/svg','circle');
             v.setAttribute('r', this.options.radius)
             v.setAttribute('data-vertex', id);
+            for (var event in this.options.vertex.events) {
+                v.addEventListener(event, this.options.vertex.events[event]);
+            }
             this.findVerticesContainer().appendChild(v);
         }
         return this.vertices[id];
