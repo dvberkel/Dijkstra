@@ -98,6 +98,10 @@
                 var visited = this.findVertex(v.id);
                 visited.setAttribute('fill', 'purple');
             }.bind(this));
+            this.algorithm.candidates.forEach(function(v){
+                var candidate = this.findVertex(v.id);
+                candidate.setAttribute('fill', 'pink');
+            }.bind(this));
             var source = this.findVertex(this.algorithm.source.id);
             var target = this.findVertex(this.algorithm.target.id);
             source.setAttribute('fill', 'red');
