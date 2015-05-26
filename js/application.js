@@ -13,6 +13,7 @@
     var algorithm = new dijkstra.ShortestPath(G);
     algorithm.setSource(G.vertices[0]);
     algorithm.setTarget(G.vertices[G.vertices.length - 1]);
+    algorithm.setPathFrom(G.vertices[G.vertices.length - 1]);
 
     view.visualize(algorithm);
 

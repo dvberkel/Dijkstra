@@ -106,6 +106,7 @@
             vertex.setAttribute('cx', position.x);
             vertex.setAttribute('cy', position.y);
             vertex.setAttribute('fill', this.options.color.default);
+            vertex.setAttribute('stroke', 'black');
         }.bind(this));
         this.graph.edges.forEach(function(e){
             var edge = this.findEdge(e.id);
@@ -138,6 +139,14 @@
                 neighbour.setAttribute('fill', this.options.color.neighbour);
 
             }.bind(this));
+            if (this.algorithm.pathFrom){
+                var v = this.algorithm.pathFrom;
+                while (v) {
+                    var vertex = this.findVertex(v.id);
+                    vertex.setAttribute('stroke', 'white');
+                    v = this.graph.findVertex(this.algorithm.direction[v.id]);
+                }
+            }
         }
     };
     GraphView.prototype.findVertex = function(id){
@@ -232,6 +241,9 @@
         this.target = v;
         this.reset();
     };
+    ShortestPath.prototype.setPathFrom = function(w){
+        this.pathFrom = w;
+    }
     ShortestPath.prototype.step = function(){
         if (this.state === states.PICK) {
             this.current = this.candidates.reduce(function(best, candidate){
