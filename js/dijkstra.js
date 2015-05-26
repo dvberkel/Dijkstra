@@ -134,6 +134,7 @@
         if (!this.vertices[id]) {
             var v = this.vertices[id] = document.createElementNS('http://www.w3.org/2000/svg','circle');
             v.setAttribute('r', this.options.radius)
+            v.setAttribute('data-vertex', id);
             this.findVerticesContainer().appendChild(v);
         }
         return this.vertices[id];
@@ -147,6 +148,7 @@
     GraphView.prototype.findEdge = function(id){
         if (!this.edges[id]) {
             var e = this.edges[id] = document.createElementNS('http://www.w3.org/2000/svg','line');
+            e.setAttribute('data-edge', id);
             this.findEdgesContainer().appendChild(e);
         }
         return this.edges[id];
