@@ -71,7 +71,17 @@
         this.options = extend(options || {},
                               { 'radius': 1 },
                               { 'placement': function(position){ return position; } },
-                              { 'between': 0 });
+                              { 'between': 0 },
+                              { 'color': {
+                                  'default': 'white',
+                                  'visited': 'gray',
+                                  'frontier': 'pink',
+                                  'source': 'red',
+                                  'target': 'green',
+                                  'current': 'blue',
+                                  'neighbour': 'yellow'
+
+                              }});
         this.graph = graph;
         this.container = container;
         this.placement = this.options.placement || function(position){ return position; }
@@ -85,7 +95,7 @@
             var position = this.placement(v);
             vertex.setAttribute('cx', position.x);
             vertex.setAttribute('cy', position.y);
-            vertex.setAttribute('fill', 'white');
+            vertex.setAttribute('fill', this.options.color.default);
         }.bind(this));
         this.graph.edges.forEach(function(e){
             var edge = this.findEdge(e.id);
@@ -99,23 +109,23 @@
         if (this.algorithm){
             this.algorithm.visited.forEach(function(v){
                 var visited = this.findVertex(v.id);
-                visited.setAttribute('fill', 'purple');
+                visited.setAttribute('fill', this.options.color.visited);
             }.bind(this));
             this.algorithm.candidates.forEach(function(v){
                 var candidate = this.findVertex(v.id);
-                candidate.setAttribute('fill', 'pink');
+                candidate.setAttribute('fill', this.options.color.frontier);
             }.bind(this));
             var source = this.findVertex(this.algorithm.source.id);
             var target = this.findVertex(this.algorithm.target.id);
-            source.setAttribute('fill', 'red');
-            target.setAttribute('fill', 'green');
+            source.setAttribute('fill', this.options.color.source);
+            target.setAttribute('fill', this.options.color.target);
             if (this.algorithm.current){
                 var current = this.findVertex(this.algorithm.current.id);
-                current.setAttribute('fill', 'blue');
+                current.setAttribute('fill', this.options.color.current);
             }
             this.algorithm.neighbourhood.forEach(function(v){
                 var neighbour = this.findVertex(v.id);
-                neighbour.setAttribute('fill', 'gray');
+                neighbour.setAttribute('fill', this.options.color.neighbour);
 
             }.bind(this));
         }
