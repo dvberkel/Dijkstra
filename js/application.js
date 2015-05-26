@@ -1,15 +1,26 @@
 ;(function(){
     var G = dijkstra.hexGrid(2);
 
-    new dijkstra.GraphView(G, document.getElementById('graph'), {
+    var view = new dijkstra.GraphView(G, document.getElementById('graph'), {
         placement: function(position){ return {
             'x': 100 * position.x,
             'y': 100 * position.y
         }},
         radius: 20,
         between: 0.3
-
     });
+
+    var algorithm = new dijkstra.ShortestPath(G);
+    algorithm.setSource(G.vertices[0]);
+    algorithm.setTarget(G.vertices[G.vertices.length - 1]);
+
+    view.visualize(algorithm);
+
+    function loop(){
+        view.update();
+        requestAnimationFrame(loop);
+    };
+    loop();
 
     window.G = G;
 })();

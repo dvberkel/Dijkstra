@@ -88,6 +88,12 @@
             edge.setAttribute('x2', tail.x);
             edge.setAttribute('y2', tail.y);
         }.bind(this));
+        if (this.algorithm){
+            var source = this.findVertex(this.algorithm.source.id);
+            var target = this.findVertex(this.algorithm.target.id);
+            source.setAttribute('fill', 'red');
+            target.setAttribute('fill', 'green');
+        }
     };
     GraphView.prototype.findVertex = function(id){
         if (!this.vertices[id]) {
@@ -116,6 +122,9 @@
         }
         return this.edgesContainer;
     };
+    GraphView.prototype.visualize = function(algorithm){
+        this.algorithm = algorithm;
+    };
 
     dijkstra.hexGrid = function(n){
         var G = new Graph();
@@ -141,5 +150,20 @@
             }
         }
         return G;
+    };
+
+    var ShortestPath = dijkstra.ShortestPath = function(graph){
+        this.graph = graph;
+        this.reset();
+    };
+    ShortestPath.prototype.reset = function(){
+    };
+    ShortestPath.prototype.setSource = function(u){
+        this.reset();
+        this.source = u;
+    };
+    ShortestPath.prototype.setTarget = function(v){
+        this.reset();
+        this.target = v;
     };
 })(window.dijkstra = window.dijkstra || {})
