@@ -1,10 +1,13 @@
 ;(function(dijkstra){
-    function extend(){
+    var extend = dijkstra.extend = function extend(){
         var result = {};
         Array.prototype.slice.call(arguments, 0).forEach(function(argument){
             for (var key in argument) {
                 if (!result[key]) {
                     result[key] = argument[key];
+                }
+                if (typeof result[key] === 'object') {
+                    result[key] = extend(result[key], argument[key]);
                 }
             }
         });
