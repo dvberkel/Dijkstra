@@ -260,7 +260,7 @@
             var neighbourhood = this.graph.neighbourhood(this.current).filter(function(v){ return !contains(this.visited, v); }.bind(this));
             neighbourhood.forEach(function(neighbour){
                 var d = this.distance[this.current.id] + 1
-                if (!this.direction[neighbour.id] || this.distance[neighbour.id] > d) {
+                if (this.direction[neighbour.id] == undefined || this.distance[neighbour.id] > d) {
                     this.direction[neighbour.id] = this.current.id;
                 }
                 this.distance[neighbour.id] = Math.min(this.distance[neighbour.id], d);
