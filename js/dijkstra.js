@@ -83,13 +83,14 @@
                               { 'placement': function(position){ return position; } },
                               { 'between': 0 },
                               { 'color': {
-                                  'default': 'white',
+                                  'default': 'lightcyan',
                                   'visited': 'gray',
                                   'frontier': 'pink',
                                   'source': 'red',
                                   'target': 'green',
                                   'current': 'blue',
-                                  'neighbour': 'yellow'
+                                  'neighbour': 'yellow',
+                                  'path': 'white'
 
                               }});
         this.graph = graph;
@@ -143,7 +144,7 @@
                 var v = this.algorithm.pathFrom;
                 while (v) {
                     var vertex = this.findVertex(v.id);
-                    vertex.setAttribute('stroke', 'white');
+                    vertex.setAttribute('stroke', this.options.color.path);
                     v = this.graph.findVertex(this.algorithm.direction[v.id]);
                 }
             }
