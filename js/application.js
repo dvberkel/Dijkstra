@@ -14,10 +14,6 @@
                     var id = this.getAttribute('data-vertex');
                     var v = G.findVertex(id);
                     algorithm.setPathFrom(v);
-                    console.log(this);
-                    console.log(event);
-                    console.log(id);
-                    console.log(v);
                 }
             }
         }
