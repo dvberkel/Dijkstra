@@ -92,18 +92,19 @@
                               { 'radius': 1 },
                               { 'placement': function(position){ return position; } },
                               { 'between': 0 },
-                              { 'color': {
-                                  'default': 'lightcyan',
-                                  'visited': 'gray',
-                                  'frontier': 'pink',
-                                  'source': 'red',
-                                  'target': 'green',
-                                  'current': 'blue',
-                                  'neighbour': 'yellow',
-                                  'path': 'white'
-
+                              { 'vertex': {
+                                  'events': {},
+                                  'color': {
+                                      'default': 'lightcyan',
+                                      'visited': 'gray',
+                                      'frontier': 'pink',
+                                      'source': 'red',
+                                      'target': 'green',
+                                      'current': 'blue',
+                                      'neighbour': 'yellow',
+                                      'path': 'white'
+                                  }
                               }},
-                              { 'vertex': { 'events': {} } },
                               { 'edge': { 'events': {} } });
         this.graph = graph;
         this.container = container;
@@ -118,7 +119,7 @@
             var position = this.placement(v);
             vertex.setAttribute('cx', position.x);
             vertex.setAttribute('cy', position.y);
-            vertex.setAttribute('fill', this.options.color.default);
+            vertex.setAttribute('fill', this.options.vertex.color.default);
             vertex.setAttribute('stroke', 'black');
         }.bind(this));
         this.graph.edges.forEach(function(e){
@@ -133,30 +134,30 @@
         if (this.algorithm){
             this.algorithm.visited.forEach(function(v){
                 var visited = this.findVertex(v.id);
-                visited.setAttribute('fill', this.options.color.visited);
+                visited.setAttribute('fill', this.options.vertex.color.visited);
             }.bind(this));
             this.algorithm.candidates.forEach(function(v){
                 var candidate = this.findVertex(v.id);
-                candidate.setAttribute('fill', this.options.color.frontier);
+                candidate.setAttribute('fill', this.options.vertex.color.frontier);
             }.bind(this));
             var source = this.findVertex(this.algorithm.source.id);
             var target = this.findVertex(this.algorithm.target.id);
-            source.setAttribute('fill', this.options.color.source);
-            target.setAttribute('fill', this.options.color.target);
+            source.setAttribute('fill', this.options.vertex.color.source);
+            target.setAttribute('fill', this.options.vertex.color.target);
             if (this.algorithm.current){
                 var current = this.findVertex(this.algorithm.current.id);
-                current.setAttribute('fill', this.options.color.current);
+                current.setAttribute('fill', this.options.vertex.color.current);
             }
             this.algorithm.neighbourhood.forEach(function(v){
                 var neighbour = this.findVertex(v.id);
-                neighbour.setAttribute('fill', this.options.color.neighbour);
+                neighbour.setAttribute('fill', this.options.vertex.color.neighbour);
 
             }.bind(this));
             if (this.algorithm.pathFrom){
                 var v = this.algorithm.pathFrom;
                 while (v) {
                     var vertex = this.findVertex(v.id);
-                    vertex.setAttribute('stroke', this.options.color.path);
+                    vertex.setAttribute('stroke', this.options.vertex.color.path);
                     v = this.graph.findVertex(this.algorithm.direction[v.id]);
                 }
             }
