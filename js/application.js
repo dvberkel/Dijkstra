@@ -33,7 +33,7 @@
     loop();
 
     document.body.addEventListener('keypress', function(event){
-        if (event.charCode == 32) {
+        if (event.charCode == 32) { /* spacebar */
             algorithm.step();
         }
     });
