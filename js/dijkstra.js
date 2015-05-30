@@ -102,7 +102,8 @@
                                   'neighbour': 'yellow',
                                   'path': 'white'
 
-                              }});
+                              }},
+                              { 'vertex': { 'events': {} } });
         this.graph = graph;
         this.container = container;
         this.placement = this.options.placement || function(position){ return position; }
