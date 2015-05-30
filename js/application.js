@@ -7,6 +7,7 @@
             var e = G.findEdge(id);
             var weight = weights[e.weight] || 1;
             e.weight = weight;
+            algorithm.reset();
         };
     }
 
