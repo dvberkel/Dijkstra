@@ -7,7 +7,6 @@
             var e = G.findEdge(id);
             var weight = weights[e.weight] || 1;
             e.weight = weight;
-            console.log(weight);
         };
     }
 
@@ -30,6 +29,14 @@
         edge: {
             events: {
                 click: nextWeight({ 1: 3, 3: 5, 5: 10 })
+            },
+            color: {
+                forWeight: {
+                    1: 'black',
+                    3: 'blue',
+                    5: 'orange',
+                    10: 'red'
+                }
             }
         }
     });

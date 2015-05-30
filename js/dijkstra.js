@@ -105,7 +105,13 @@
                                       'path': 'white'
                                   }
                               }},
-                              { 'edge': { 'events': {} } });
+                              { 'edge': {
+                                  'events': {},
+                                  'color' : {
+                                      'default': 'black',
+                                      'forWeight': {}
+                                  }
+                              }});
         this.graph = graph;
         this.container = container;
         this.placement = this.options.placement || function(position){ return position; }
@@ -130,6 +136,7 @@
             edge.setAttribute('y1', head.y);
             edge.setAttribute('x2', tail.x);
             edge.setAttribute('y2', tail.y);
+            edge.setAttribute('stroke', this.options.edge.color.forWeight[e.weight] || this.options.edge.color.default);
         }.bind(this));
         if (this.algorithm){
             this.algorithm.visited.forEach(function(v){
