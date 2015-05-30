@@ -77,6 +77,15 @@
             return candidate.id == id ? candidate: edge;
         }, undefined);
     };
+    Graph.prototype.findEdgeBetween = function(u, v){
+        var candidates = this.edges.filter(function(edge){
+            return edge.incidentTo(u) && edge.incidentTo(v);
+        });
+        if (candidates.length > 0){
+            return candidates[0];
+        }
+        return undefined;
+    };
 
     var GraphView = dijkstra.GraphView = function(graph, container, options){
         this.options = extend(options || {},
