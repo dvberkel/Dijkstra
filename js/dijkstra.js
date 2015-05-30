@@ -32,10 +32,11 @@
         this.name = name;
     };
 
-    var Edge = function(u, v, id){
+    var Edge = function(u, v, id, weight){
         this.tail = u;
         this.head = v;
         this.id = id;
+        this.weight = weight || 1;
     };
     Edge.prototype.incidentTo = function(v){
         return this.tail === v || this.head === v;
@@ -56,8 +57,8 @@
         this.vertices.push(v);
         return v;
     };
-    Graph.prototype.addEdge = function(u, v) {
-        var e = new Edge(u, v, this.edgeId++);
+    Graph.prototype.addEdge = function(u, v, weight) {
+        var e = new Edge(u, v, this.edgeId++, weight);
         this.edges.push(e);
         return e;
     };
