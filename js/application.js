@@ -38,5 +38,32 @@
         }
     });
 
+    (function(){
+        function save(){
+            context.drawImage(image, 0, 0);
+            var canvasData = canvas.toDataURL('image/png');
+            link.href= canvasData;
+            link.download = prefix + (n++) + '.png';
+            link.click();
+        }
+
+        var prefix = 'dijkstra-';
+        var n = 0;
+        var container = document.getElementById('container');
+        var image = new Image();
+        var canvas = document.createElement('canvas');
+        var context = canvas.getContext('2d');
+        var link = document.createElement('a');
+        link.style = 'display: none'
+        document.body.appendChild(link);
+        image.onload = save;
+        document.body.addEventListener('keypress', function(event){
+            if (event.charCode == 112) { /* p */
+                var imageSrc = 'data:image/svg+xml;base64,'+ btoa(container.innerHTML);
+                image.src = imageSrc;
+            }
+        });
+    })();
+
     window.G = G;
 })();
