@@ -103,7 +103,8 @@
                                   'path': 'white'
 
                               }},
-                              { 'vertex': { 'events': {} } });
+                              { 'vertex': { 'events': {} } },
+                              { 'edge': { 'events': {} } });
         this.graph = graph;
         this.container = container;
         this.placement = this.options.placement || function(position){ return position; }
@@ -183,6 +184,9 @@
         if (!this.edges[id]) {
             var e = this.edges[id] = document.createElementNS('http://www.w3.org/2000/svg','line');
             e.setAttribute('data-edge', id);
+            for (var event in this.options.edge.events) {
+                e.addEventListener(event, this.options.edge.events[event]);
+            }
             this.findEdgesContainer().appendChild(e);
         }
         return this.edges[id];

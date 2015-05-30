@@ -16,6 +16,13 @@
                     algorithm.setPathFrom(v);
                 }
             }
+        },
+        edge: {
+            events: {
+                click: function(event){
+                    console.log(event);
+                }
+            }
         }
     });
 
