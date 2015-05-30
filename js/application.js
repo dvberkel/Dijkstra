@@ -1,6 +1,16 @@
 ;(function(){
     var G = dijkstra.hexGrid(2);
 
+    function nextWeight(weights) {
+        return function(event){
+            var id = this.getAttribute('data-edge');
+            var e = G.findEdge(id);
+            var weight = weights[e.weight] || 1;
+            e.weight = weight;
+            console.log(weight);
+        };
+    }
+
     var view = new dijkstra.GraphView(G, document.getElementById('graph'), {
         placement: function(position){ return {
             'x': 100 * position.x,
@@ -19,9 +29,7 @@
         },
         edge: {
             events: {
-                click: function(event){
-                    console.log(event);
-                }
+                click: nextWeight({ 1: 3, 3: 5, 5: 10 })
             }
         }
     });
