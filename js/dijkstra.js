@@ -242,6 +242,7 @@
     };
     var ShortestPath = dijkstra.ShortestPath = function(graph){
         this.graph = graph;
+        this.maxStepNumber = 0;
         this.reset();
     };
     ShortestPath.prototype.reset = function(){
@@ -259,6 +260,7 @@
             this.candidates.push(this.source);
             this.distance[this.source.id] = 0;
         }
+        this.stepNumber = 0;
     };
     ShortestPath.prototype.setSource = function(u){
         this.source = u;
@@ -297,6 +299,13 @@
         if (this.state == states.FRONTIER){
             this.neighbourhood = [];
         }
+        this.maxStepNumber = Math.max(this.maxStepNumber, ++(this.stepNumber));
         this.state = this.state.next();
+    };
+    ShortestPath.prototype.retraceSteps = function() {
+        var maximum = this.maxStepNumber;
+        while (this.stepNumber < maximum) {
+            this.step();
+        }
     }
 })(window.dijkstra = window.dijkstra || {})

@@ -8,6 +8,7 @@
             var weight = weights[e.weight] || 1;
             e.weight = weight;
             algorithm.reset();
+            algorithm.retraceSteps();
         };
     }
 
