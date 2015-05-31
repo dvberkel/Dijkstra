@@ -112,6 +112,10 @@
                                       'default': 'black',
                                       'forWeight': {}
                                   }
+                              }},
+                              { 'distance': {
+                                  'dy': '0.3em',
+                                  'font-size': '20'
                               }});
         this.graph = graph;
         this.container = container;
@@ -226,8 +230,8 @@
     GraphView.prototype.findDistance = function(id){
         if (!this.distances[id]) {
             var d = this.distances[id] = document.createElementNS('http://www.w3.org/2000/svg','text');
-            d.setAttribute('dy', '0.3em');
-            d.setAttribute('font-size', '20');
+            d.setAttribute('dy', this.options.distance.dy);
+            d.setAttribute('font-size', this.options.distance['font-size']);
             d.setAttribute('data-distance', id);
             this.findDistancesContainer().appendChild(d);
         }
