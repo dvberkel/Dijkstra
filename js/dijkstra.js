@@ -95,13 +95,13 @@
                               { 'vertex': {
                                   'events': {},
                                   'color': {
-                                      'default': 'lightcyan',
-                                      'visited': 'gray',
-                                      'frontier': 'pink',
+                                      'default': '#9775aa',
+                                      'visited': '#407f7f',
+                                      'frontier': '#d4d46a',
                                       'source': 'red',
                                       'target': 'green',
-                                      'current': 'blue',
-                                      'neighbour': 'yellow',
+                                      'current': '#3d1255',
+                                      'neighbour': '#808015',
                                       'path': 'white'
                                   }
                               }},
