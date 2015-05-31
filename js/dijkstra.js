@@ -92,6 +92,7 @@
                               { 'radius': 1 },
                               { 'placement': function(position){ return position; } },
                               { 'between': 0 },
+                              { 'showDistances': true },
                               { 'vertex': {
                                   'events': {},
                                   'color': {
@@ -114,9 +115,11 @@
                               }});
         this.graph = graph;
         this.container = container;
-        this.placement = this.options.placement || function(position){ return position; }
+        this.placement = this.options.placement;
         this.vertices = {};
         this.edges = {};
+        this.distances = {};
+        this.showDistances = this.options.showDistances;
         this.update();
     };
     GraphView.prototype.update = function(){
@@ -168,6 +171,21 @@
                     v = this.graph.findVertex(this.algorithm.direction[v.id]);
                 }
             }
+            this.graph.vertices.forEach(function(v){
+                var vertex = this.findVertex(v.id);
+                var position = this.placement(v);
+                var distance = this.findDistance(v.id);
+                distance.setAttribute('x', position.x);
+                distance.setAttribute('y', position.y);
+                if (this.showDistances) {
+                    distance.innerHTML =
+                        this.algorithm.distance[v.id] == Number.POSITIVE_INFINITY ?
+                        '&infin;': this.algorithm.distance[v.id];
+                } else {
+                    distance.innerHTML = '';
+                }
+
+            }.bind(this));
         }
     };
     GraphView.prototype.findVertex = function(id){
@@ -205,8 +223,27 @@
         }
         return this.edgesContainer;
     };
+    GraphView.prototype.findDistance = function(id){
+        if (!this.distances[id]) {
+            var d = this.distances[id] = document.createElementNS('http://www.w3.org/2000/svg','text');
+            d.setAttribute('dy', '0.3em');
+            d.setAttribute('font-size', '20');
+            d.setAttribute('data-distance', id);
+            this.findDistancesContainer().appendChild(d);
+        }
+        return this.distances[id];
+    };
+    GraphView.prototype.findDistancesContainer = function(){
+        if (!this.distancesContainer) {
+            this.distancesContainer = this.container.querySelector('#distances');
+        }
+        return this.distancesContainer;
+    };
     GraphView.prototype.visualize = function(algorithm){
         this.algorithm = algorithm;
+    };
+    GraphView.prototype.toggleDistances = function(){
+        this.showDistances = !this.showDistances;
     };
 
     dijkstra.hexGrid = function(n){
