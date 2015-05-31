@@ -62,6 +62,12 @@
         }
     });
 
+    document.body.addEventListener('keypress', function(event){
+        if (event.charCode == 100) { /* d */
+            view.toggleDistances();
+        }
+    });
+
     (function(){
         function save(){
             context.drawImage(image, 0, 0);
