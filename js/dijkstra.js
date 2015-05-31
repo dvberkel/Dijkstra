@@ -236,9 +236,10 @@
     };
 
     var states = {
-        'PICK'     : { 'next': function(){ return states.NEIGHBOUR; } },
-        'NEIGHBOUR': { 'next': function(){ return states.FRONTIER; } },
-        'FRONTIER': { 'next': function(){ return states.PICK; } }
+        'PICK'     : { 'next': function(){ return states.NEIGHBOUR; }, 'name': 'PICK' },
+        'NEIGHBOUR': { 'next': function(){ return states.FRONTIER; }, 'name': 'NEIGHBOUR' },
+        'FRONTIER': { 'next': function(){ return states.PICK; }, 'name': 'FRONTIER' },
+        'FINISHED': { 'next': function(){ return states.FINISHED; }, 'name': 'FINISHED' }
     };
     var ShortestPath = dijkstra.ShortestPath = function(graph){
         this.graph = graph;
@@ -295,9 +296,15 @@
             }.bind(this));
             this.neighbourhood = neighbourhood;
             this.visited.push(this.current);
+            if (this.candidates.length == 0) {
+                this.state = states.FINISHED;
+            }
         }
         if (this.state == states.FRONTIER){
             this.neighbourhood = [];
+        }
+        if (this.state == states.FINISHED){
+            this.current = undefined;
         }
         this.maxStepNumber = Math.max(this.maxStepNumber, ++(this.stepNumber));
         this.state = this.state.next();
