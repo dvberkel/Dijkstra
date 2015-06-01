@@ -92,7 +92,8 @@
         image.onload = save;
         document.body.addEventListener('keypress', function(event){
             if (event.charCode == 112) { /* p */
-                var imageSrc = 'data:image/svg+xml;base64,'+ btoa(container.innerHTML);
+                var data = btoa(unescape(encodeURIComponent(container.innerHTML)));
+                var imageSrc = 'data:image/svg+xml;base64,'+ data;
                 image.src = imageSrc;
             }
         });
