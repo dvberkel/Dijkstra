@@ -80,8 +80,11 @@
         var prefix = 'dijkstra-';
         var n = 0;
         var container = document.getElementById('container');
+        var svg = document.getElementsByTagName('svg')[0];
         var image = new Image();
         var canvas = document.createElement('canvas');
+        canvas.setAttribute('width', svg.getAttribute('width'));
+        canvas.setAttribute('height', svg.getAttribute('height'));
         var context = canvas.getContext('2d');
         var link = document.createElement('a');
         link.style = 'display: none'
